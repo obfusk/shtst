@@ -1,0 +1,20 @@
+$ true
+
+$ false
+>= 1
+
+$ echo foo
+>
+foo
+
+$ cat
+<
+foo
+bar
+>
+foo
+bar
+
+$ cat --oops
+>2 /unrecognized option/
+>= 1
