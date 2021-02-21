@@ -1,7 +1,7 @@
 $ true
 
 $ false
->= 1
+? 1
 
 $ echo foo
 >
@@ -17,4 +17,4 @@ bar
 
 $ cat --oops
 >2 /unrecognized option/
->= 1
+? 1

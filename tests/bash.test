@@ -5,7 +5,6 @@ $ echo $'\'o\' `elem` p'
 >
 'o' `elem` p
 >2
->= 0
 
 # bash-only <( ... ) syntax
 $ diff <( echo foo ) <( echo bar )
@@ -15,4 +14,4 @@ $ diff <( echo foo ) <( echo bar )
 |---
 |> bar
 >2
->= 1
+? 1

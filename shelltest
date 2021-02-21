@@ -35,7 +35,7 @@ def cli(tests, shell):                                          # {{{1
       if err:
         failed += 1
         click.echo("Command:\n{}".format(s.cmd))
-        click.echo("\n".join(err) + "\n")
+        click.echo("".join(err))
       else:
         passed += 1
   click.echo(
@@ -91,7 +91,7 @@ def parse(f):                                                   # {{{1
     s = ""
     while j < l:
       line = lines[j]
-      if not line.strip() or line[0] in "#$<>": break
+      if not line.strip() or line[0] in "#$?<>": break
       s += line[1:] if line.startswith("|") else line
       j += 1
     return s, j-1
@@ -106,6 +106,8 @@ def parse(f):                                                   # {{{1
       elif line.startswith("$"):
         if cmd: yield Spec(cmd, stdin, stdout, stderr, exit)
         cmd, stdout, stderr, exit = line[1:].strip(), None, None, "0"
+      elif line.startswith("?"):
+        exit = line[1:].strip()
       elif line.startswith(">="):
         exit = line[2:].strip()
       elif line.startswith("<"):
@@ -121,7 +123,7 @@ def parse(f):                                                   # {{{1
         else:
           stdout, i = gobble(lines, i+1, l)
       else:
-        raise RuntimeError("OOPS")                            #  FIXME
+        raise RuntimeError("Parse Error")                     #  FIXME
       i += 1
     if cmd: yield Spec(cmd, stdin, stdout, stderr, exit)
                                                                 # }}}1
