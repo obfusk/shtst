@@ -90,8 +90,9 @@ def parse(f):                                                   # {{{1
   def gobble(lines, j, l):
     s = ""
     while j < l:
-      if not lines[j].strip() or lines[j][0] in "#$<>": break
-      s += lines[j]
+      line = lines[j]
+      if not line.strip() or line[0] in "#$<>": break
+      s += line[1:] if line.startswith("|") else line
       j += 1
     return s, j-1
   cmd, stdin, stderr, stdout, exit = None, "", None, None, "0"
