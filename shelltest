@@ -24,7 +24,8 @@ Spec = namedtuple("Cmd", "cmd stdin stdout stderr exit".split())
 @click.command()
 @click.option("--shell")
 @click.argument("tests", nargs = -1, type = click.Path(exists = True))
-def cli(tests, shell):                                          # {{{1
+@click.pass_context
+def cli(ctx, tests, shell):                                     # {{{1
   passed, failed, total = 0, 0, 0
   for f in files(tests):
     for i, s in enumerate(parse(f)):
@@ -44,6 +45,7 @@ def cli(tests, shell):                                          # {{{1
       " Failed  {:<10}  {}\n".format(failed, failed) +        #  FIXME
       " Total   {:<10}  {}"  .format(total , total )          #  FIXME
   )
+  if failed: ctx.exit(1)
                                                                 # }}}1
 
 def run(s, shell = None):                                       # {{{1
