@@ -1,0 +1,19 @@
+name: CI
+on: [push, pull_request, workflow_dispatch]
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+    - name: Install dependencies
+      run: |
+        python3 -m pip install --upgrade pip
+        pip install click
+    - name: Test w/ sh
+      run: python3 shelltest tests/sh
+    - name: Test w/ bash
+      run: python3 shelltest --shell /bin/bash tests
