@@ -18,7 +18,7 @@ from collections import namedtuple
 
 import click
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 name        = "shtst"
 
 Spec = namedtuple("Spec", "cmd stdin stdout stderr exit lineno".split())
