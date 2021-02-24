@@ -11,9 +11,7 @@
 }}}1 -->
 
 [![GitHub Release](https://img.shields.io/github/release/obfusk/shtst.svg?logo=github)](https://github.com/obfusk/shtst/releases)
-<!--
 [![PyPI Version](https://img.shields.io/pypi/v/shtst.svg)](https://pypi.python.org/pypi/shtst)
--->
 [![Python Versions](https://img.shields.io/pypi/pyversions/shtst.svg)](https://pypi.python.org/pypi/shtst)
 [![CI](https://github.com/obfusk/shtst/workflows/CI/badge.svg)](https://github.com/obfusk/shtst/actions?query=workflow%3ACI)
 [![GPLv3+](https://img.shields.io/badge/license-GPLv3+-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.html)
