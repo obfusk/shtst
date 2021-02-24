@@ -1,0 +1,3 @@
+# test multiline matches
+$ printf "Line 1 foo\nLine 2 bar\nLine 3 baz\n"
+> /^line 1.*^line 2/

@@ -1,9 +1,9 @@
 $ true
+? !0
 
 $ false
-? 1
 
-$ echo foo
+$ printf foo
 >
 foo
 
@@ -14,16 +14,14 @@ bar
 >
 foo
 bar
+baz
 
 $ cat --oops
->2 /unrecognized option/
+>2 /Unrecognized Option/
 ? 1
 
-$ printf "foo\n\nbar\n"
+$ printf "foo\n \nbar\n"
 >
 |foo
 |
 |bar
-
-$ false
-? !0

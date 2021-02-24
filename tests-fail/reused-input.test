@@ -1,0 +1,13 @@
+<
+foo
+bar
+baz
+
+$ cat
+>
+foo
+bar
+
+$ wc -l
+>
+4

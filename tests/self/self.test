@@ -1,0 +1,137 @@
+$ shtst --help
+>
+|Usage: shtst [OPTIONS] [TESTFILES|TESTDIRS]
+|
+|  simple cli testing
+|
+|Options:
+|  --shell PATH  Shell program.  [default: /bin/sh]
+|  --version     Show the version and exit.
+|  --help        Show this message and exit.
+
+$ shtst tests/sh
+>
+|:tests/sh/multiline.test:1: [OK]
+|:tests/sh/reused-input.test:1: [OK]
+|:tests/sh/reused-input.test:2: [OK]
+|:tests/sh/simple.test:1: [OK]
+|:tests/sh/simple.test:2: [OK]
+|:tests/sh/simple.test:3: [OK]
+|:tests/sh/simple.test:4: [OK]
+|:tests/sh/simple.test:5: [OK]
+|:tests/sh/simple.test:6: [OK]
+|:tests/sh/simple.test:7: [OK]
+|
+|         Test Cases  Total
+| Passed  10          10
+| Failed  0           0
+| Total   10          10
+
+$ shtst tests/bash
+? 1
+
+$ shtst --shell bash tests/bash
+>
+|:tests/bash/bash.test:1: [OK]
+|:tests/bash/bash.test:2: [OK]
+|
+|         Test Cases  Total
+| Passed  2           2
+| Failed  0           0
+| Total   2           2
+
+$ shtst tests-fail
+>
+|:tests-fail/multiline.test:1: [Failed]
+|Command (at line 2):
+|printf "Line 1 foo\nLine 2 bar\nLine 3 baz\n"
+|Expected stdout:
+|/^line 1.*^line 2/
+|Got stdout:
+|Line 1 foo
+|Line 2 bar
+|Line 3 baz
+|
+|:tests-fail/reused-input.test:1: [Failed]
+|Command (at line 6):
+|cat
+|Expected stdout:
+|foo
+|bar
+|
+|Got stdout:
+|foo
+|bar
+|baz
+|
+|:tests-fail/reused-input.test:2: [Failed]
+|Command (at line 11):
+|wc -l
+|Expected stdout:
+|4
+|
+|Got stdout:
+|3
+|
+|:tests-fail/simple.test:1: [Failed]
+|Command (at line 1):
+|true
+|Expected exit code:
+|!0
+|Got exit code:
+|0
+|:tests-fail/simple.test:2: [Failed]
+|Command (at line 4):
+|false
+|Expected exit code:
+|0
+|Got exit code:
+|1
+|:tests-fail/simple.test:3: [Failed]
+|Command (at line 6):
+|printf foo
+|Expected stdout:
+|foo
+|
+|Got stdout:
+|foo
+|:tests-fail/simple.test:4: [Failed]
+|Command (at line 10):
+|cat
+|Expected stdout:
+|foo
+|bar
+|baz
+|
+|Got stdout:
+|foo
+|bar
+|
+|:tests-fail/simple.test:5: [Failed]
+|Command (at line 19):
+|cat --oops
+|Expected stderr:
+|/Unrecognized Option/
+|Got stderr:
+|cat: unrecognized option '--oops'
+|Try 'cat --help' for more information.
+|
+|:tests-fail/simple.test:6: [Failed]
+|Command (at line 23):
+|printf "foo\n \nbar\n"
+|Expected stdout:
+|foo
+|
+|bar
+|
+|Got stdout:
+|foo
+| 
+|bar
+|
+|
+|         Test Cases  Total
+| Passed  0           0
+| Failed  9           9
+| Total   9           9
+? 1

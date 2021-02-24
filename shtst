@@ -5,10 +5,10 @@
 #
 # File        : shtst
 # Maintainer  : Felix C. Stegerman <flx@obfusk.net>
-# Date        : 2021-02-21
+# Date        : 2021-02-24
 #
 # Copyright   : Copyright (C) 2021  Felix C. Stegerman
-# Version     : v0.0.1
+# Version     : v0.1.0
 # License     : GPLv3+
 #
 # --                                                            ; }}}1
@@ -18,12 +18,18 @@ from collections import namedtuple
 
 import click
 
-Spec = namedtuple("Cmd", "cmd stdin stdout stderr exit".split())
+__version__ = "0.1.0"
+name        = "shtst"
+
+Spec = namedtuple("Spec", "cmd stdin stdout stderr exit lineno".split())
 
 # TODO
-@click.command()
-@click.option("--shell")
-@click.argument("tests", nargs = -1, type = click.Path(exists = True))
+@click.command(help = "simple cli testing")
+@click.option("--shell", metavar = "PATH",
+              help = "Shell program.  [default: /bin/sh]")
+@click.argument("tests", nargs = -1, type = click.Path(exists = True),
+                metavar = "[TESTFILES|TESTDIRS]")
+@click.version_option(__version__)
 @click.pass_context
 def cli(ctx, tests, shell):                                     # {{{1
   passed, failed, total = 0, 0, 0
@@ -35,7 +41,7 @@ def cli(ctx, tests, shell):                                     # {{{1
       click.echo(":{}:{}: [{}]".format(f, i+1, res))
       if err:
         failed += 1
-        click.echo("Command:\n{}".format(s.cmd))
+        click.echo("Command (at line {}):\n{}".format(s.lineno, s.cmd))
         click.echo("".join(err))
       else:
         passed += 1
@@ -97,7 +103,8 @@ def parse(f):                                                   # {{{1
       s += line[1:] if line.startswith("|") else line
       j += 1
     return s, j-1
-  cmd, stdin, stderr, stdout, exit = None, "", None, None, "0"
+  cmd, stdin, stderr, stdout, exit, lineno = \
+    None, "", None, None, "0", None
   with open(f) as fh:
     lines = tuple(fh)
     i, l = 0, len(lines)
@@ -106,8 +113,9 @@ def parse(f):                                                   # {{{1
       if line.startswith("#") or not line.strip():
         pass
       elif line.startswith("$"):
-        if cmd: yield Spec(cmd, stdin, stdout, stderr, exit)
-        cmd, stdout, stderr, exit = line[1:].strip(), None, None, "0"
+        if cmd: yield Spec(cmd, stdin, stdout, stderr, exit, lineno)
+        cmd, stdout, stderr, exit, lineno = \
+          line[1:].strip(), None, None, "0", i+1
       elif line.startswith("?"):
         exit = line[1:].strip()
       elif line.startswith(">="):
@@ -125,9 +133,10 @@ def parse(f):                                                   # {{{1
         else:
           stdout, i = gobble(lines, i+1, l)
       else:
-        raise RuntimeError("Parse Error")                     #  FIXME
+        raise RuntimeError("Parse Error (file: {}, line: {})"
+                           .format(f, i+1))                   #  FIXME
       i += 1
-    if cmd: yield Spec(cmd, stdin, stdout, stderr, exit)
+    if cmd: yield Spec(cmd, stdin, stdout, stderr, exit, lineno)
                                                                 # }}}1
 
 def files(ts):                                                  # {{{1
@@ -144,7 +153,10 @@ def files(ts):                                                  # {{{1
       yield t
                                                                 # }}}1
 
+def main():
+  cli(prog_name = name)
+
 if __name__ == "__main__":
-  cli(prog_name = "shtst")
+  main()
 
 # vim: set tw=70 sw=2 sts=2 et fdm=marker :

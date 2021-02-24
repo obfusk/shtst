@@ -19,8 +19,7 @@ jobs:
     - name: Install dependencies
       run: |
         python3 -m pip install --upgrade pip
-        pip install click
-    - name: Test w/ sh
-      run: python3 shtst tests/sh
-    - name: Test w/ bash
-      run: python3 shtst --shell /bin/bash tests
+    - name: Install
+      run: make install
+    - name: Test
+      run: make test

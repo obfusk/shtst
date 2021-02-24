@@ -1,0 +1,3 @@
+include LICENSE.GPLv3
+include Makefile
+global-include *.test

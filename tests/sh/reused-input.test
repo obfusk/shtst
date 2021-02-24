@@ -1,0 +1,13 @@
+<
+foo
+bar
+baz
+
+$ cat
+>
+foo
+bar
+baz
+
+$ wc -l
+> /^\s*3\s*$/
