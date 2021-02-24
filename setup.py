@@ -1,7 +1,8 @@
 from pathlib import Path
 import setuptools
 
-from shtst import __version__
+# from shtst import __version__                               #  FIXME
+__version__ = "0.1.0"
 
 info = Path(__file__).with_name("README.md").read_text(encoding = "utf8")
 
