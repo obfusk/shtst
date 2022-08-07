@@ -1,10 +1,10 @@
 <!-- {{{1
 
     File        : README.md
-    Maintainer  : Felix C. Stegerman <flx@obfusk.net>
-    Date        : 2021-02-24
+    Maintainer  : FC Stegerman <flx@obfusk.net>
+    Date        : 2022-08-07
 
-    Copyright   : Copyright (C) 2021  Felix C. Stegerman
+    Copyright   : Copyright (C) 2022  FC Stegerman
     Version     : v0.1.1
     License     : GPLv3+
 
@@ -117,22 +117,25 @@ $ shtst --help
 
 ## Tab Completion
 
+NB: the syntax for the environment variable changed in click >= 8.0,
+use e.g. `source_bash` instead of `bash_source` for older versions.
+
 For Bash, add this to `~/.bashrc`:
 
 ```bash
-eval "$(_SHTST_COMPLETE=source_bash shtst)"
+eval "$(_SHTST_COMPLETE=bash_source shtst)"
 ```
 
 For Zsh, add this to `~/.zshrc`:
 
 ```zsh
-eval "$(_SHTST_COMPLETE=source_zsh shtst)"
+eval "$(_SHTST_COMPLETE=zsh_source shtst)"
 ```
 
 For Fish, add this to `~/.config/fish/completions/shtst.fish`:
 
 ```fish
-eval (env _SHTST_COMPLETE=source_fish shtst)
+eval (env _SHTST_COMPLETE=fish_source shtst)
 ```
 
 ## Requirements
